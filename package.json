@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-dev": "nodemon index.js"
+    "start": "vercel-dev"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +16,8 @@
     "express": "^4.21.1",
     "firebase": "^11.0.2",
     "firebase-admin": "^13.0.1",
-    "uuid": "^11.0.3"
+    "uuid": "^11.0.3",
+    "vercel": "^39.1.2"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
