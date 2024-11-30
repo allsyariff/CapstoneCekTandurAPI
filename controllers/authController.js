@@ -18,17 +18,14 @@ exports.registerUser = async (req, res) => {
                 }
             });
         }
-        await userRef.set({ id, name, email, password, insertedAt, updatedAt });
+        const userData = { id, name, email, password, insertedAt, updatedAt };
+        await userRef.set(userData);
+
         return res.status(201).json({
             status: 201,
             message: "User registered successfully",
-            data: {
-                userId: id,
-                name: name,
-                email: email
-            }
+            data: userData
         });
-        
     } catch (error) {
         return res.status(500).json({
             status: 500,
@@ -43,10 +40,8 @@ exports.registerUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
     try {
-        // Query untuk mencari dokumen berdasarkan email
         const userQuerySnapshot = await db.collection('users').where('email', '==', email).get();
 
-        // Validasi jika user tidak ditemukan
         if (userQuerySnapshot.empty) {
             return res.status(400).json({
                 status: 400,
@@ -57,11 +52,9 @@ exports.loginUser = async (req, res) => {
             });
         }
 
-        // Ambil data user dari dokumen pertama (jika ada)
         const userDoc = userQuerySnapshot.docs[0];
         const userData = userDoc.data();
 
-        // Validasi password
         if (userData.password !== password) {
             return res.status(400).json({
                 status: 400,
@@ -72,15 +65,17 @@ exports.loginUser = async (req, res) => {
             });
         }
 
-        // Jika berhasil login
         return res.status(200).json({
             status: 200,
             message: "User logged in successfully",
-    
+            data: {
+                userId: userData.id,
+                name: userData.name,
+                email: userData.email
+            }
         });
 
     } catch (error) {
-        console.error("Error during login:", error);
         return res.status(500).json({
             status: 500,
             message: "Internal server error",
@@ -92,14 +87,13 @@ exports.loginUser = async (req, res) => {
 };
 
 
+
 exports.logoutUser = async (req, res) => {
-    const { email } = req.body; // Menggunakan email pengguna dari body request
+    const { email } = req.body;
 
     try {
-        // Cari user berdasarkan email
         const userQuerySnapshot = await db.collection('users').where('email', '==', email).get();
 
-        // Validasi jika user tidak ditemukan
         if (userQuerySnapshot.empty) {
             return res.status(400).json({
                 status: 400,
@@ -110,16 +104,20 @@ exports.logoutUser = async (req, res) => {
             });
         }
 
-        // Ambil dokumen user (dokumen pertama)
         const userDoc = userQuerySnapshot.docs[0];
         const userId = userDoc.id;
+        const userData = userDoc.data();
 
-        // Perbarui status logout di database (misalnya dengan atribut `isLoggedIn`)
         await db.collection('users').doc(userId).update({ isLoggedIn: false });
 
         return res.status(200).json({
             status: 200,
-            message: "User logged out successfully"
+            message: "User logged out successfully",
+            data: {
+                userId: userData.id,
+                name: userData.name,
+                email: userData.email
+            }
         });
 
     } catch (error) {
@@ -132,3 +130,4 @@ exports.logoutUser = async (req, res) => {
         });
     }
 };
+
