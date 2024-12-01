@@ -127,10 +127,48 @@ module.exports = {
     };
     
     // GET all plants
+    // exports.getAllPlants = (req, res) => {
+    //     const data = readPlantsData();
+    //     res.json(data.plants);
+    // };
+    // Mendapatkan semua tanaman
     exports.getAllPlants = (req, res) => {
-        const data = readPlantsData();
-        res.json(data.plants);
+        res.json(plantsData);
     };
+    
+    // Mendapatkan tanaman berdasarkan nama penyakit
+    exports.getPlantByDiseaseName = (req, res) => {
+        const diseaseName = req.params.disease_name.toLowerCase();
+        const plants = Object.values(plantsData.plants);
+    
+        const result = plants.find(plant => 
+        plant.disease_name.toLowerCase() === diseaseName
+        );
+    
+        if (result) {
+        res.json(result);
+        } else {
+        res.status(404).json({ message: 'Tanaman dengan nama penyakit tersebut tidak ditemukan' });
+        }
+    };
+    
+    // Mendapatkan tanaman berdasarkan nama tanaman
+    exports.getPlantByName = (req, res) => {
+        const plantName = req.params.plant_name.toLowerCase();
+        const plants = Object.values(plantsData.plants);
+    
+        // Mencari tanaman berdasarkan nama yang mirip dengan disease_name (jika berbeda gunakan key sesuai)
+        const result = plants.find(plant => 
+        plant.disease_name.toLowerCase().includes(plantName) // Ini contoh jika nama tanaman sama seperti "nama penyakit"
+        );
+    
+        if (result) {
+        res.json(result);
+        } else {
+        res.status(404).json({ message: 'Tanaman dengan nama tersebut tidak ditemukan' });
+        }
+    };
+    
     
     // GET plant by class
     exports.getPlantByClass = (req, res) => {
