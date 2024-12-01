@@ -1,191 +1,72 @@
-/* const { analyzePlant } = require('../services/mlService');
+const fs = require('fs');
+const path = require('path');
+const plantsFilePath = path.join(__dirname, '../models/plant.json');
 
-const analyzeImage = async (req, res) => {
-    const { imageUrl } = req.body;
+// Helper function to read the JSON file
+const readPlantsData = () => {
+    const data = fs.readFileSync(plantsFilePath);
+    return JSON.parse(data);
+};
 
-    try {
-        const result = await analyzePlant(imageUrl);
-        if (result.error) return res.status(404).json({ error: result.error });
+// GET all plants
+exports.getAllPlants = (req, res) => {
+    const data = readPlantsData();
+    res.json(data.plants);
+};
 
-        res.status(200).json({ plant: result });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+// GET plant by class
+exports.getPlantByClass = (req, res) => {
+    const data = readPlantsData();
+    const plantClass = req.params.class;
+    const plant = data.plants[plantClass];
+    
+    if (plant) {
+        res.json(plant);
+    } else {
+        res.status(404).json({ message: "Plant class not found" });
     }
 };
 
-module.exports = { analyzeImage };
- */
-/* const firebase = require('../db');
-const firestore = firebase.firestore();
-const col = firestore.collection('plants');
+// POST add new plant class
+exports.addPlant = (req, res) => {
+    const data = readPlantsData();
+    const newClass = req.body.class;
+    const newPlant = req.body.plant;
 
-const getAllPlants = async (req, res, next) => {
-    let data = [];
-    let query = await col.get()
-    .then(snapshot => {
-        snapshot.forEach(doc => {
-            console.log(doc.data());
-            data.push(doc.data())
-        });
-        // console.log(snapshot);
-    })
-    .catch (err => {
-        console.log('Error getting documents', err);
-        return res.status(400).send({
-            'error' : true,
-            'message' : 'error getting documents'
-        })
-    })
-    
-    return await res.status(200).send({
-        'error' : false,
-        'message' : 'Plants fetched successfully',
-        'data' : data
-    });
-}
-
-const getPlantByName = async (req, res, next) => {
-    const plantName = req.params.name;
-    let data = null;
-    let query = await col.where('name', '==', plantName).limit(1).get()
-    .then(snapshot => {
-        snapshot.forEach(doc => {
-            console.log(doc.data());
-            data = doc.data()
-        });
-        // console.log(snapshot);
-    })
-    .catch (err => {
-        console.log('Error getting documents', err);
-        return res.status(400).send({
-            'error' : true,
-            'message' : 'error getting documents'
-        })
-    })
-
-    if(data == null) {
-        return await res.status(404).send({
-            'error' : true,
-            'message' : `can't found '${plantName}'`,
-        });
+    if (data.plants[newClass]) {
+        return res.status(400).json({ message: "Class already exists" });
     }
 
-    return await res.status(200).send({
-        'error' : false,
-        'message' : 'Plant fetched successfully',
-        'data' : data
-    });
-}
+    data.plants[newClass] = newPlant;
+    fs.writeFileSync(plantsFilePath, JSON.stringify(data, null, 2));
+    res.status(201).json({ message: "New plant class added", data: newPlant });
+};
 
-const getDiseaseByName = async (req, res, next) => {
-    const plantName = req.params.name;
-    let data = null;
-    let query = await col.where('name', '==', plantName).limit(1).get()
-    .then(snapshot => {
-        snapshot.forEach(doc => {
-            console.log(doc.data().disease);
-            data = doc.data().disease;
-        });
-        // console.log(snapshot);
-    })
-    .catch (err => {
-        console.log('Error getting documents', err);
-        return res.status(400).send({
-            'error' : true,
-            'message' : 'error getting documents'
-        })
-    })
+// PUT update plant class
+exports.updatePlant = (req, res) => {
+    const data = readPlantsData();
+    const plantClass = req.params.class;
+    const updatedPlant = req.body.plant;
 
-    if(data == null) {
-        return await res.status(404).send({
-            'error' : true,
-            'message' : `can't found '${plantName}'`,
-        });
+    if (!data.plants[plantClass]) {
+        return res.status(404).json({ message: "Plant class not found" });
     }
 
-    return await res.status(200).send({
-        'error' : false,
-        'message' : 'Plant fetched successfully',
-        'data' : data
-    });
-}
+    data.plants[plantClass] = updatedPlant;
+    fs.writeFileSync(plantsFilePath, JSON.stringify(data, null, 2));
+    res.json({ message: "Plant class updated", data: updatedPlant });
+};
 
-module.exports = {
-    getAllPlants,
-    getPlantByName,
-    getDiseaseByName
-} */
+// DELETE plant class
+exports.deletePlant = (req, res) => {
+    const data = readPlantsData();
+    const plantClass = req.params.class;
 
-    const fs = require('fs');
-    const path = require('path');
-    const plantsFilePath = path.join(__dirname, '../models/plant.json');
-    
-    // Helper function to read the JSON file
-    const readPlantsData = () => {
-        const data = fs.readFileSync(plantsFilePath);
-        return JSON.parse(data);
-    };
-    
-    // GET all plants
-    exports.getAllPlants = (req, res) => {
-        const data = readPlantsData();
-        res.json(data.plants);
-    };
-    
-    // GET plant by class
-    exports.getPlantByClass = (req, res) => {
-        const data = readPlantsData();
-        const plantClass = req.params.class;
-        const plant = data.plants[plantClass];
-        
-        if (plant) {
-            res.json(plant);
-        } else {
-            res.status(404).json({ message: "Plant class not found" });
-        }
-    };
-    
-    // POST add new plant class
-    exports.addPlant = (req, res) => {
-        const data = readPlantsData();
-        const newClass = req.body.class;
-        const newPlant = req.body.plant;
-    
-        if (data.plants[newClass]) {
-            return res.status(400).json({ message: "Class already exists" });
-        }
-    
-        data.plants[newClass] = newPlant;
-        fs.writeFileSync(plantsFilePath, JSON.stringify(data, null, 2));
-        res.status(201).json({ message: "New plant class added", data: newPlant });
-    };
-    
-    // PUT update plant class
-    exports.updatePlant = (req, res) => {
-        const data = readPlantsData();
-        const plantClass = req.params.class;
-        const updatedPlant = req.body.plant;
-    
-        if (!data.plants[plantClass]) {
-            return res.status(404).json({ message: "Plant class not found" });
-        }
-    
-        data.plants[plantClass] = updatedPlant;
-        fs.writeFileSync(plantsFilePath, JSON.stringify(data, null, 2));
-        res.json({ message: "Plant class updated", data: updatedPlant });
-    };
-    
-    // DELETE plant class
-    exports.deletePlant = (req, res) => {
-        const data = readPlantsData();
-        const plantClass = req.params.class;
-    
-        if (!data.plants[plantClass]) {
-            return res.status(404).json({ message: "Plant class not found" });
-        }
-    
-        delete data.plants[plantClass];
-        fs.writeFileSync(plantsFilePath, JSON.stringify(data, null, 2));
-        res.json({ message: "Plant class deleted" });
-    };
-    
+    if (!data.plants[plantClass]) {
+        return res.status(404).json({ message: "Plant class not found" });
+    }
+
+    delete data.plants[plantClass];
+    fs.writeFileSync(plantsFilePath, JSON.stringify(data, null, 2));
+    res.json({ message: "Plant class deleted" });
+};
