@@ -86,8 +86,6 @@ exports.loginUser = async (req, res) => {
     }
 };
 
-
-
 exports.logoutUser = async (req, res) => {
     const { email } = req.body;
 

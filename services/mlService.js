@@ -1,4 +1,4 @@
-/* const axios = require('axios');
+const axios = require('axios');
 
 const analyzePlant = async (imageUrl) => {
     try {
@@ -22,4 +22,3 @@ const analyzePlant = async (imageUrl) => {
 };
 
 module.exports = { analyzePlant };
- */

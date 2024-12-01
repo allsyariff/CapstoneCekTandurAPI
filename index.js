@@ -12,8 +12,7 @@ app.use(bodyParser.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
-
-// app.use('/plant', plantRoutes);
+app.use('/api/plant', plantRoutes);
 // app.use('/solutions', solutionRoutes);
 
 const PORT = process.env.PORT || 5000;
