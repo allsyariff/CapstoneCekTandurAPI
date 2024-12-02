@@ -150,9 +150,9 @@
             "disease_name": "Jagung Busuk Daun",
             "description": " Busuk daun pada jagung merupakan salah satu penyakit tanaman jagung yang cukup serius dan dapat menyebabkan kerugian yang signifikan bagi petani. Penyakit ini disebabkan oleh beberapa jenis jamur patogen yang menyerang daun jagung, menyebabkan kerusakan pada jaringan daun, dan menghambat proses fotosintesis.",
             "causes": [
-                " Helminthosporium maydis: Menyebabkan penyakit hawar daun.",
+                "Helminthosporium maydis: Menyebabkan penyakit hawar daun.",
                 "Physoderma maydis: Menyebabkan penyakit bercak daun.",
-                " Kabatiella zeae: Menyebabkan penyakit bercak daun."
+                "Kabatiella zeae: Menyebabkan penyakit bercak daun."
             ],
             "treatments": [
                 "Rotasi tanaman: Hindari menanam jagung secara terus-menerus di lahan yang sama.",
@@ -377,6 +377,13 @@
 			]
 		},
         "Class23": {
+			"disease_name": "Tomat Sehat",
+			"description": "Sejauh ini Tanaman anda terlihat sehat, terus rawat dengan baik dan berikan pupuk dan perlindungan lainya secara teratur.",
+			"causes": [],
+			"treatments": [],
+			"alternative_products": []
+		},
+		"Class24": {
 			"disease_name": "Tomat Tungau Laba-Laba Berbintik",
 			"description": "Tungau laba-laba berbintik adalah sejenis tungau kecil berwarna merah atau kuning dengan bintik-bintik hitam. Mereka hidup berkoloni di bagian bawah daun dan menghisap cairan tanaman. Serangan tungau ini dapat menyebabkan daun menjadi menguning, kering, dan akhirnya rontok.",
 			"causes": [
@@ -396,7 +403,7 @@
 				"Spirotetramat"
 			]
 		},
-		"Class24": {
+		"Class25": {
 			"disease_name": "Tomat Virus Mosaik Tomat",
 			"description": "Virus mosaik tomat adalah penyakit yang disebabkan oleh beberapa jenis virus, seperti Cucumber Mosaic Virus (CMV) dan Tomato Mosaic Virus (TMV). Virus ini menyerang tanaman tomat dan menyebabkan gejala khas berupa mosaik pada daun. Tidak ada produk yang dapat menyembuhkan tanaman yang sudah terinfeksi virus mosaik. Pencegahan adalah cara terbaik untuk mengatasi penyakit ini.",
 			"causes": [
@@ -406,24 +413,17 @@
 				"Alat pertanian: Alat pertanian yang terkontaminasi virus juga dapat menjadi sumber penularan."
 			],
 			"treatments": [
-				"Pengendalian vektor: Gunakan insektisida yang aman untuk tanaman untuk mengendalikan kutu daun dan lalat putih.",
-				"Sanitasi: Bersihkan lahan dari sisa-sisa tanaman setelah panen.",
-				"Rotasi tanaman: Hindari menanam tomat secara terus-menerus di lahan yang sama.",
-				"Gunakan varietas tahan: Pilih varietas tomat yang tahan terhadap virus mosaik.",
-				"Benih sehat: Gunakan benih yang bebas dari virus.",
-				"Alat pertanian: Bersihkan dan disinfeksi alat pertanian sebelum dan sesudah digunakan."
+				"Pengendalian vektor : Gunakan insektisida yang aman untuk tanaman untuk mengendalikan kutu daun dan lalat putih.",
+				"Sanitasi : Bersihkan lahan dari sisa-sisa tanaman setelah panen.",
+				"Rotasi tanaman : Hindari menanam tomat secara terus-menerus di lahan yang sama.",
+				"Gunakan varietas tahan : Pilih varietas tomat yang tahan terhadap virus mosaik.",
+				"Benih sehat : Gunakan benih yang bebas dari virus.",
+				"Alat pertanian : Bersihkan dan disinfeksi alat pertanian sebelum dan sesudah digunakan."
 			],
 			"alternative_products": [
 				"Insektisida",
 				"Disinfektan"
 			]
-		},
-		"Class25": {
-			"disease_name": "Tomat Sehat",
-			"description": "Sejauh ini Tanaman anda terlihat sehat, terus rawat dengan baik dan berikan pupuk dan perlindungan lainnya secara teratur.",
-			"causes": [],
-			"treatments": [],
-			"alternative_products": []
 		}
 	}
 }

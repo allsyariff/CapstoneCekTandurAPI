@@ -27,7 +27,7 @@ exports.getPlantByClass = (req, res) => {
     }
 };
 
-// POST add new plant class
+/* // POST add new plant class
 exports.addPlant = (req, res) => {
     const data = readPlantsData();
     const newClass = req.body.class;
@@ -69,4 +69,4 @@ exports.deletePlant = (req, res) => {
     delete data.plants[plantClass];
     fs.writeFileSync(plantsFilePath, JSON.stringify(data, null, 2));
     res.json({ message: "Plant class deleted" });
-};
+}; */
