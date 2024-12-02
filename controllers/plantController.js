@@ -42,7 +42,7 @@ exports.addPlant = (req, res) => {
     res.status(201).json({ message: "New plant class added", data: newPlant });
 };
 
-// PUT update plant class
+/* // PUT update plant class
 exports.updatePlant = (req, res) => {
     const data = readPlantsData();
     const plantClass = req.params.class;
@@ -56,7 +56,7 @@ exports.updatePlant = (req, res) => {
     fs.writeFileSync(plantsFilePath, JSON.stringify(data, null, 2));
     res.json({ message: "Plant class updated", data: updatedPlant });
 };
-
+ */
 // DELETE plant class
 exports.deletePlant = (req, res) => {
     const data = readPlantsData();
@@ -69,4 +69,4 @@ exports.deletePlant = (req, res) => {
     delete data.plants[plantClass];
     fs.writeFileSync(plantsFilePath, JSON.stringify(data, null, 2));
     res.json({ message: "Plant class deleted" });
-}; */
+};
