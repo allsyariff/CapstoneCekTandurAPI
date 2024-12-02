@@ -58,7 +58,7 @@ exports.updatePlant = (req, res) => {
 };
  */
 // DELETE plant class
-exports.deletePlant = (req, res) => {
+/* exports.deletePlant = (req, res) => {
     const data = readPlantsData();
     const plantClass = req.params.class;
 
@@ -70,3 +70,4 @@ exports.deletePlant = (req, res) => {
     fs.writeFileSync(plantsFilePath, JSON.stringify(data, null, 2));
     res.json({ message: "Plant class deleted" });
 };
+ */

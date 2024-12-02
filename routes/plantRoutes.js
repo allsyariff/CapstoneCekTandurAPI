@@ -6,6 +6,6 @@ router.get('/', plantController.getAllPlants);
 router.get('/:class', plantController.getPlantByClass);
 // router.post('/', plantController.addPlant);
 // router.put('/:class', plantController.updatePlant);
-router.delete('/:class', plantController.deletePlant);
+// router.delete('/:class', plantController.deletePlant);
 
 module.exports = router;
