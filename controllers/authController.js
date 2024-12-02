@@ -3,9 +3,22 @@ const { v4: uuidv4 } = require('uuid');
 
 exports.registerUser = async (req, res) => {
     const { name, email, password } = req.body;
+    
+    // Validasi input
+    if (!name || !email || !password) {
+        return res.status(400).json({
+            status: 400,
+            message: "Missing required fields",
+            error: {
+                details: "Please provide name, email, and password."
+            }
+        });
+    }
+
     const id = uuidv4().replace(/-/g, '').slice(0, 16);
     const insertedAt = new Date().toISOString();
     const updatedAt = insertedAt;
+
     try {
         const userRef = db.collection('users').doc(id);
         const doc = await userRef.get();
@@ -18,6 +31,7 @@ exports.registerUser = async (req, res) => {
                 }
             });
         }
+
         const userData = { id, name, email, password, insertedAt, updatedAt };
         await userRef.set(userData);
 
@@ -36,6 +50,7 @@ exports.registerUser = async (req, res) => {
         });
     }
 };
+
 
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
