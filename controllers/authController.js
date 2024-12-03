@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 
 exports.registerUser = async (req, res) => {
     const { name, email, password } = req.body;
-    
+
     // Validasi input
     if (!name || !email || !password) {
         return res.status(400).json({
@@ -26,17 +26,28 @@ exports.registerUser = async (req, res) => {
         });
     }
 
-    // Validasi apakah email sudah terdaftar
-    const userQuerySnapshot = await db.collection('users').where('email', '==', email).get();
-    if (!userQuerySnapshot.empty) {
+    // Validasi apakah email memiliki format unik (contoh: harus @gmail.com)
+    if (!email.includes('@')) {
         return res.status(400).json({
             status: 400,
-            message: "User already exists",
+            message: "Invalid email format",
             error: {
-                details: "The user has already registered with the same email address."
+                details: "Email must contain '@' symbol."
             }
         });
     }
+
+   // Validasi apakah email sudah terdaftar
+   const userQuerySnapshot = await db.collection('users').where('email', '==', email).get();
+   if (!userQuerySnapshot.empty) {
+       return res.status(409).json({  
+           status: 409,
+           message: "Akun sudah terdaftar",  // Pesan untuk user Android
+           error: {
+               details: "The user has already registered with this email address."
+           }
+       });
+   }
 
     const id = uuidv4().replace(/-/g, '').slice(0, 16);
     const insertedAt = new Date().toISOString();
@@ -50,7 +61,7 @@ exports.registerUser = async (req, res) => {
         return res.status(201).json({
             status: 201,
             message: "User registered successfully",
-            data: userData
+            data: { id, name, email, insertedAt, updatedAt }
         });
     } catch (error) {
         return res.status(500).json({
