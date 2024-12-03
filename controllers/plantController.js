@@ -2,19 +2,19 @@ const fs = require('fs');
 const path = require('path');
 const plantsFilePath = path.join(__dirname, '../models/plant.json');
 
-// Helper function to read the JSON file
+// Fungsi membaca file JSON
 const readPlantsData = () => {
     const data = fs.readFileSync(plantsFilePath);
     return JSON.parse(data);
 };
 
-// GET all plants
+// Mendapatkan semua tanaman
 exports.getAllPlants = (req, res) => {
     const data = readPlantsData();
     res.json(data.plants);
 };
 
-// GET plant by class
+// mendapatkan tanaman berdasarkan class
 exports.getPlantByClass = (req, res) => {
     const data = readPlantsData();
     const plantClass = req.params.class;
