@@ -15,23 +15,35 @@ exports.registerUser = async (req, res) => {
         });
     }
 
+    // Validasi panjang password minimal 8 karakter
+    if (password.length < 8) {
+        return res.status(400).json({
+            status: 400,
+            message: "Password too short",
+            error: {
+                details: "Password must be at least 8 characters long."
+            }
+        });
+    }
+
+    // Validasi apakah email sudah terdaftar
+    const userQuerySnapshot = await db.collection('users').where('email', '==', email).get();
+    if (!userQuerySnapshot.empty) {
+        return res.status(400).json({
+            status: 400,
+            message: "User already exists",
+            error: {
+                details: "The user has already registered with the same email address."
+            }
+        });
+    }
+
     const id = uuidv4().replace(/-/g, '').slice(0, 16);
     const insertedAt = new Date().toISOString();
     const updatedAt = insertedAt;
 
     try {
         const userRef = db.collection('users').doc(id);
-        const doc = await userRef.get();
-        if (doc.exists) {
-            return res.status(400).json({
-                status: 400,
-                message: "User already exists",
-                error: {
-                    details: "The user has registered an account with the same email address",
-                }
-            });
-        }
-
         const userData = { id, name, email, password, insertedAt, updatedAt };
         await userRef.set(userData);
 
@@ -50,7 +62,6 @@ exports.registerUser = async (req, res) => {
         });
     }
 };
-
 
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
