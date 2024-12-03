@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const plantRoutes = require('./routes/plantRoutes');
-const solutionRoutes = require('./routes/solutionRoutes');
+// const solutionRoutes = require('./routes/solutionRoutes');
 
 const app = express();
 require('dotenv').config();
